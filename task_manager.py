@@ -1,13 +1,11 @@
 from utils import get_choice
 from storage import save_tasks
+from models import Task
 
 
 def add_task(tasks):
     task_to_add = input("Enter the task to add: ")
-    tasks.append({
-        "task_name": task_to_add,
-        "completed": False
-    })
+    tasks.append(Task(task_to_add).to_dict())
     save_tasks(tasks)
 
 
@@ -18,8 +16,8 @@ def view_tasks(tasks):
     
     print("Your tasks: \n")
     for i, task in enumerate(tasks, start=1):
-        status = "✔️" if task["completed"] else " "
-        print(f"{i}. [{status} ] {task['task_name']}")
+        status = "✔️" if task.completed else " "
+        print(f"{i}. [{status} ] {task.task_name}")
 
 
 def mark_task_completed(tasks):
@@ -34,10 +32,10 @@ def mark_task_completed(tasks):
     task_no = get_choice()
 
     if 1 <= task_no <= len(tasks):
-        if tasks[task_no-1]["completed"]:
+        if tasks[task_no-1].completed:
             print("Task is already marked as completed.")
         else:
-            tasks[task_no-1]["completed"] = True
+            tasks[task_no-1].mark_completed()
             print("Task marked as completed!")
             save_tasks(tasks)
         # for i, task in enumerate(tasks, start=1):
@@ -62,7 +60,7 @@ def delete_task(tasks):
     task_no = get_choice()
 
     if 1 <= task_no <= len(tasks):
-        deleted_task = tasks[task_no-1]['task_name']
+        deleted_task = tasks[task_no-1].task_name
         del tasks[task_no-1]
         print(f"Task deleted: {deleted_task}")
         save_tasks(tasks)

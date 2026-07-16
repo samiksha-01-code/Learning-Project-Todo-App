@@ -1,18 +1,1 @@
-[
-    {
-        "task_name": "eat healthy",
-        "completed": false
-    },
-    {
-        "task_name": "sleep for 8hrs",
-        "completed": false
-    },
-    {
-        "task_name": "yoga",
-        "completed": true
-    },
-    {
-        "task_name": "code",
-        "completed": false
-    }
-]
+[]
