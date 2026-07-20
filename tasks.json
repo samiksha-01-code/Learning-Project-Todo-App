@@ -1,1 +1,10 @@
-[]
+[
+    {
+        "task_name": "eat healthy",
+        "completed": false
+    },
+    {
+        "task_name": "sleep for 8hrs",
+        "completed": true
+    }
+]

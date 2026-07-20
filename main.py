@@ -1,9 +1,8 @@
 from utils import show_menu, get_choice
-from storage import load_tasks
-from task_manager import add_task, view_tasks, mark_task_completed, delete_task
+from todo_app import TodoApp
 
 def main():
-    tasks = load_tasks()
+    app = TodoApp()
 
     while True:
         show_menu()
@@ -11,13 +10,13 @@ def main():
         choice = get_choice()
 
         if choice == 1:
-            add_task(tasks)
+            app.add_task()
         elif choice == 2:
-            view_tasks(tasks)
+            app.view_tasks()
         elif choice == 3:
-            mark_task_completed(tasks) 
+            app.mark_task_completed() 
         elif choice == 4: 
-            delete_task(tasks)
+            app.delete_task()
         elif choice == 5:
             print("Exiting the application.")
             break
