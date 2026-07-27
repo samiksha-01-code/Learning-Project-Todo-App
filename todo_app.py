@@ -9,9 +9,16 @@ class TodoApp:
 
     
     def add_task(self):
-        task_to_add = input("Enter the task to add: ")
-        self.tasks.append(Task(task_to_add))
-        save_tasks(self.tasks)
+        while True:
+            try:
+                task_to_add = input("Enter the task to add: ")
+                self.tasks.append(Task(task_to_add))
+                save_tasks(self.tasks)
+                print("Task added successfully!")
+                break
+            except ValueError as e:
+                print(e)
+                print("Please enter a valid task name.")
 
     
     def view_tasks(self):
@@ -21,59 +28,60 @@ class TodoApp:
         
         print("Your tasks: \n")
         for i, task in enumerate(self.tasks, start=1):
-            status = "✔️" if task.completed else " "
-            print(f"{i}. [{status} ] {task.task_name}")
+            print(f"{i}. {task}")
 
     
     def mark_task_completed(self):
-        if not self.tasks:
-            print("No tasks available to mark as completed.")
+
+        task = self._select_task()
+
+        if task is None:
             return
         
-        print(f"Select the task you want to mark as completed: ")
-        self.view_tasks()
-
-        # task_no = int(input("Enter the task number to mark as completed: "))
-        task_no = get_choice()
-
-        if 1 <= task_no <= len(self.tasks):
-            if self.tasks[task_no-1].completed:
-                print("Task is already marked as completed.")
-            else:
-                self.tasks[task_no-1].mark_completed()
-                print("Task marked as completed!")
-                save_tasks(self.tasks)
-            # for i, task in enumerate(tasks, start=1):
-            #     if i == task_no:
-            #         task["completed"] = True
-            #         print("task mark as completed!")
-            #         break
-
+        if task.completed:
+            print("Task is already marked as completed.")
         else:
-            print("Invalid task number. Please try again.")
+            task.mark_completed()
+            print("Task marked as completed!")
+            save_tasks(self.tasks)
+        # for i, task in enumerate(tasks, start=1):
+        #     if i == task_no:
+        #         task["completed"] = True
+        #         print("task mark as completed!")
+        #         break
 
 
     def delete_task(self):
-        if not self.tasks:
-            print("No tasks available to delete.")
+
+        task = self._select_task()
+
+        if task is None:
             return
         
-        print("Select the task you want to delete: ")
+        self.tasks.remove(task)
+        print(f"Task deleted: {task.task_name}")
+        save_tasks(self.tasks)
+
+        # for i, _ in enumerate(tasks, start=1):
+        #     if i == task_no:
+        #         deleted_task = tasks[i-1]['task_name']
+        #         del tasks[i-1]
+        #         print(f"Task deleted: {deleted_task}")
+
+
+    def _select_task(self):
+        if not self.tasks:
+            print("No tasks available.")
+            return
+        
+        print("Select a task : ")
+
         self.view_tasks()
 
-        # task_no = int(input("Enter the task number to delete: "))
         task_no = get_choice()
 
         if 1 <= task_no <= len(self.tasks):
-            deleted_task = self.tasks[task_no-1].task_name
-            del self.tasks[task_no-1]
-            print(f"Task deleted: {deleted_task}")
-            save_tasks(self.tasks)
-
-            # for i, _ in enumerate(tasks, start=1):
-            #     if i == task_no:
-            #         deleted_task = tasks[i-1]['task_name']
-            #         del tasks[i-1]
-            #         print(f"Task deleted: {deleted_task}")
-        else:
-            print("Invalid task number. Please try again.")
+            return self.tasks[task_no-1]
+        
+        print("Invalid task number. Please try again.")
+        return None

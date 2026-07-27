@@ -6,5 +6,21 @@
     {
         "task_name": "sleep for 8hrs",
         "completed": true
+    },
+    {
+        "task_name": "eat healthy",
+        "completed": false
+    },
+    {
+        "task_name": "drink water",
+        "completed": false
+    },
+    {
+        "task_name": "study daily",
+        "completed": false
+    },
+    {
+        "task_name": "5",
+        "completed": false
     }
 ]
